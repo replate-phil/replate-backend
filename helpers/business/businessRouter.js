@@ -20,13 +20,13 @@ router.get('/:id', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.get('/:id/donations', restricted, (req, res) => {
-	Business.findById(req.params.id)
-		.then(business => {
-			res.json({ business });
-		})
-		.catch(err => res.send(err));
-});
+// router.get('/:id/donations', restricted, (req, res) => {
+// 	Business.findById(req.params.id)
+// 		.then(business => {
+// 			res.json({ business });
+// 		})
+// 		.catch(err => res.send(err));
+// });
 
 router.put('/:id', restricted, (req, res) => {
 	Business.update(req.params.id, edits)
