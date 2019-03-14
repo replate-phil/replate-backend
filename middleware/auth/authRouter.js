@@ -15,65 +15,54 @@ router.post('/register', async (req, res) => {
 		case 'volunteer':
 			try {
 				const newVolunteer = await Volunteer.add(user);
-				res.status(201).json(newVolunteer);
+				const token = tokenService(newVolunteer);
+				res.status(201).json({ newVolunteer, token });
 			} catch (error) {
 				res.status(500).json(error);
 			}
+			return;
 
 		case 'business':
-			return Business.add(user)
-				.then(newBusiness => {
-					res.status(201).json(newBusiness);
-				})
-				.catch(error => {
-					res.status(500).json(error);
-				});
+			try {
+				const newBusiness = await Business.add(user);
+				const token = tokenService(newBusiness);
+				res.status(201).json({ newBusiness, token });
+			} catch (error) {
+				res.status(500).json(error);
+			}
+			return;
 
 		case 'foodbank':
-			return Foodbank.add(user)
-				.then(newFoodbank => {
-					res.status(201).json(newFoodbank);
-				})
-				.catch(error => {
-					res.status(500).json(error);
-				});
+			try {
+				const newFoodbank = await Foodbank.add(user);
+				const token = tokenService(newFoodbank);
+				res.status(201).json({ newFoodbank, token });
+			} catch (error) {
+				res.status(500).json(error);
+			}
+			return;
 		default:
 			return;
 	}
 });
 
 router.post('/login', async (req, res) => {
-	switch (req.body.usertype) {
-		case 'volunteer':
-			let { first_name, password } = req.body;
-			try {
-				const existingUser = await Volunteer.findBy(first_name);
-				if (
-					existingUser &&
-					bcrypt.compareSync(password, existingUser.password)
-				) {
-					const token = tokenService(existingUser);
-					res.status(200).json({
-						message: `Welcome ${existingUser.first_name}!`,
-						token,
-					});
-				} else {
-					res.status(401).json({ message: 'Invalid Credentials' });
-				}
-			} catch (error) {
-				console.log(error);
-				res.status(500).json(error);
-			}
-			break;
+	let { email, password } = req.body;
 
-		case 'business':
+	try {
+		const existingUser = await Volunteer.findByEmail(email);
+		if (existingUser && bcrypt.compareSync(password, existingUser.password)) {
+			const token = tokenService(existingUser);
+			res.status(200).json({
+				message: `Welcome ${existingUser.first_name}!`,
+				token,
+			});
+		} else {
 			try {
-				const existingBusiness = await Business.findBy(
-					user.businessName,
-				).first();
+				const existingBusiness = await Business.findByEmail(email);
 				if (
 					existingBusiness &&
-					bcrypt.compareSync(user.password, existingBusiness.password)
+					bcrypt.compareSync(password, existingBusiness.password)
 				) {
 					const token = tokenService(existingBusiness);
 					res.status(200).json({
@@ -81,36 +70,31 @@ router.post('/login', async (req, res) => {
 						token,
 					});
 				} else {
-					res.status(401).json({ message: 'Invalid Credentials' });
+					try {
+						const existingFoodbank = await Foodbank.findByEmail(email);
+						if (
+							existingFoodbank &&
+							bcrypt.compareSync(password, existingFoodbank.password)
+						) {
+							const token = tokenService(existingFoodbank);
+							res.status(200).json({
+								message: `Welcome ${existingFoodbank.businessName}!`,
+								token,
+							});
+						} else {
+							res.status(401).json({ message: 'Invalid Credentials' });
+						}
+					} catch (error) {
+						res.status(500).json(error);
+					}
 				}
 			} catch (error) {
 				res.status(500).json(error);
 			}
-			break;
-
-		case 'foodbank':
-			try {
-				const existingFoodbank = await Foodbank.findBy(
-					user.businessName,
-				).first();
-				if (
-					existingFoodbank &&
-					bcrypt.compareSync(user.password, existingFoodbank.password)
-				) {
-					const token = tokenService(existingFoodbank);
-					res.status(200).json({
-						message: `Welcome ${existingFoodbank.businessName}!`,
-						token,
-					});
-				} else {
-					res.status(401).json({ message: 'Invalid Credentials' });
-				}
-			} catch (error) {
-				res.status(500).json(error);
-			}
-			break;
-		default:
-			return;
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json(error);
 	}
 });
 

@@ -1,5 +1,5 @@
 exports.up = function(knex, Promise) {
-	return knex.schema.createTable('food', table => {
+	return knex.schema.createTable('donations', table => {
 		table.increments();
 
 		table
@@ -7,8 +7,9 @@ exports.up = function(knex, Promise) {
 			.notNullable()
 			.unique();
 
-		table.integer('quantity_lbs');
-		table.varchar('comment');
+		table.integer('quantity_lbs').notNullable();
+		table.varchar('comment').notNullable();
+		table.boolean('picked_up').notNullable();
 
 		table
 			.integer('business_id')
@@ -24,5 +25,5 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
 	// undo the operation in up
-	return knex.schema.dropTableIfExists('food');
+	return knex.schema.dropTableIfExists('donations');
 };

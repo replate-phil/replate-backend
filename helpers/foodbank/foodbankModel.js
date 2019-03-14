@@ -5,6 +5,9 @@ module.exports = {
 	find,
 	findBy,
 	findById,
+	remove,
+	update,
+	findByEmail,
 };
 
 function find() {
@@ -25,4 +28,21 @@ function findById(id) {
 	return db('foodbank')
 		.where({ id })
 		.first();
+}
+
+function findByEmail(email) {
+	return db('foodbank')
+		.where({ email })
+		.first();
+}
+
+function remove(id) {
+	return db('volunteer')
+		.where('id', id)
+		.del();
+}
+function update(id, changes) {
+	return db('volunteer')
+		.where({ id })
+		.update(changes);
 }
