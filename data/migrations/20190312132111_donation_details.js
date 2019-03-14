@@ -19,6 +19,7 @@ exports.up = function(knex, Promise) {
 			.onDelete('CASCADE')
 			.onUpdate('CASCADE')
 			.notNullable();
+
 		table
 			.integer('foodbank_id')
 			.unsigned()
@@ -27,6 +28,7 @@ exports.up = function(knex, Promise) {
 			.onDelete('CASCADE')
 			.onUpdate('CASCADE')
 			.notNullable();
+
 		table
 			.integer('donation_id')
 			.unsigned()

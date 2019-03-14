@@ -36,7 +36,7 @@ router.put('/:id', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', restricted, async (req, res) => {
 	try {
 		const deletedBusiness = await Business.remove(req.params.id);
 		res.status(200).json(deletedBusiness);

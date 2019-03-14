@@ -3,6 +3,7 @@ const router = require('express').Router();
 const restricted = require('../../middleware/restricted/restrictedMiddleware');
 
 const Donations = require('./donationsModel');
+// const DonationDetals = require('../');
 
 router.get('/', restricted, (req, res) => {
 	Donations.find()
@@ -10,6 +11,24 @@ router.get('/', restricted, (req, res) => {
 			res.json({ donation });
 		})
 		.catch(err => res.send(err));
+});
+router.put('/:id', restricted, (req, res) => {
+	Donations.update(req.params.id, edits)
+		.then(updatedDonations => {
+			res.json({ updatedDonations });
+		})
+		.catch(err => res.send(err));
+});
+
+router.delete('/:id', async (req, res) => {
+	try {
+		const deletedDonations = await Donations.remove(req.params.id);
+		res.status(200).json(deletedDonations);
+	} catch (error) {
+		res.status(500).json({
+			message: 'Error deleting Donations',
+		});
+	}
 });
 
 module.exports = router;
