@@ -8,21 +8,21 @@ module.exports = {
 };
 
 function find() {
-	return db('food').select('id', 'name');
+	return db('donations').select('id', 'name');
 }
 
 function findBy(filter) {
-	return db('food').where(filter);
+	return db('donations').where(filter);
 }
 
-async function add(food) {
-	const [id] = await db('food').insert(food);
+async function add(donations) {
+	const [id] = await db('donations').insert(donations);
 
 	return findById(id);
 }
 
 function findById(id) {
-	return db('food')
+	return db('donations')
 		.where({ id })
 		.first();
 }

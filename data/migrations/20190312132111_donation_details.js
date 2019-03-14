@@ -1,5 +1,5 @@
 exports.up = function(knex, Promise) {
-	return knex.schema.createTable('transfer_details', table => {
+	return knex.schema.createTable('donation_details', table => {
 		table.increments();
 
 		table
@@ -8,7 +8,8 @@ exports.up = function(knex, Promise) {
 			.references('id')
 			.inTable('business')
 			.onDelete('CASCADE')
-			.onUpdate('CASCADE');
+			.onUpdate('CASCADE')
+			.notNullable();
 
 		table
 			.integer('volunteer_id')
@@ -16,21 +17,27 @@ exports.up = function(knex, Promise) {
 			.references('id')
 			.inTable('volunteer')
 			.onDelete('CASCADE')
-			.onUpdate('CASCADE');
+			.onUpdate('CASCADE')
+			.notNullable();
 		table
 			.integer('foodbank_id')
 			.unsigned()
 			.references('id')
 			.inTable('foodbank')
 			.onDelete('CASCADE')
-			.onUpdate('CASCADE');
+			.onUpdate('CASCADE')
+			.notNullable();
 		table
-			.integer('food_id')
+			.integer('donation_id')
 			.unsigned()
 			.references('id')
-			.inTable('food')
+			.inTable('donations')
 			.onDelete('CASCADE')
-			.onUpdate('CASCADE');
+			.onUpdate('CASCADE')
+			.notNullable();
+
+		table.boolean('completed').notNullable();
+		table.varchar('comment').notNullable();
 
 		table.timestamps(true, true);
 	});
@@ -38,5 +45,5 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
 	// undo the operation in up
-	return knex.schema.dropTableIfExists('transfer_details');
+	return knex.schema.dropTableIfExists('donation_details');
 };

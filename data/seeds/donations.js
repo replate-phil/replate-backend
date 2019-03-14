@@ -1,14 +1,15 @@
 exports.seed = function(knex, Promise) {
 	// Deletes ALL existing entries
-	return knex('food')
+	return knex('donations')
 		.truncate()
 		.then(function() {
 			// Inserts seed entries
-			return knex('food').insert([
+			return knex('donations').insert([
 				{
 					id: 1,
 					name: 'mashed potatos',
 					quantity_lbs: 10,
+					picked_up: false,
 					comment: 'needs to be picked up by 12/11/2019',
 					business_id: 1,
 				},
@@ -16,6 +17,7 @@ exports.seed = function(knex, Promise) {
 					id: 2,
 					name: 'canned goods',
 					quantity_lbs: 30,
+					picked_up: false,
 					comment: 'needs to be picked up by 12/11/2019',
 					business_id: 1,
 				},
@@ -23,6 +25,7 @@ exports.seed = function(knex, Promise) {
 					id: 3,
 					name: 'roast beef',
 					quantity_lbs: 5,
+					picked_up: false,
 					comment: 'needs to be picked up by 12/11/2019',
 					business_id: 1,
 				},
