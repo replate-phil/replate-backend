@@ -7,9 +7,9 @@ exports.up = function(knex, Promise) {
 			.notNullable()
 			.unique();
 
-		table.integer('quantity_lbs');
-		table.varchar('comment');
-		table.boolean('picked_up');
+		table.integer('quantity_lbs').notNullable();
+		table.varchar('comment').notNullable();
+		table.boolean('picked_up').notNullable();
 
 		table
 			.integer('business_id')

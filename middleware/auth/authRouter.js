@@ -20,6 +20,7 @@ router.post('/register', async (req, res) => {
 			} catch (error) {
 				res.status(500).json(error);
 			}
+			return;
 
 		case 'business':
 			try {
@@ -29,6 +30,7 @@ router.post('/register', async (req, res) => {
 			} catch (error) {
 				res.status(500).json(error);
 			}
+			return;
 
 		case 'foodbank':
 			try {
@@ -38,6 +40,7 @@ router.post('/register', async (req, res) => {
 			} catch (error) {
 				res.status(500).json(error);
 			}
+			return;
 		default:
 			return;
 	}
