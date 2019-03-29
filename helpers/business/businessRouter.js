@@ -4,7 +4,7 @@ const Business = require('./businessModel');
 const restricted = require('../../middleware/restricted/restrictedMiddleware');
 const checkType = require('../../middleware/userType/checkType');
 
-router.get('/', restricted, (req, res) => {
+router.get('/',  (req, res) => {
 	Business.find()
 		.then(businesses => {
 			res.json({ businesses });
@@ -12,7 +12,7 @@ router.get('/', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.get('/:id', restricted, (req, res) => {
+router.get('/:id',  (req, res) => {
 	Business.findById(req.params.id)
 		.then(business => {
 			res.json({ business });
@@ -28,7 +28,7 @@ router.get('/:id', restricted, (req, res) => {
 // 		.catch(err => res.send(err));
 // });
 
-router.put('/:id', restricted, (req, res) => {
+router.put('/:id',  (req, res) => {
 	Business.update(req.params.id, edits)
 		.then(updatedBusiness => {
 			res.json({ updatedBusiness });
@@ -36,7 +36,7 @@ router.put('/:id', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.delete('/:id', restricted, async (req, res) => {
+router.delete('/:id',  async (req, res) => {
 	try {
 		const deletedBusiness = await Business.remove(req.params.id);
 		res.status(200).json(deletedBusiness);

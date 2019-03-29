@@ -4,7 +4,7 @@ const restricted = require('../../middleware/restricted/restrictedMiddleware');
 
 const Foodbank = require('../foodbank/foodbankModel');
 
-router.get('/', restricted, (req, res) => {
+router.get('/',  (req, res) => {
 	Foodbank.find()
 		.then(foodbank => {
 			res.json({ foodbank, decodedToken: req.decodedJwt });
@@ -12,7 +12,7 @@ router.get('/', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.put('/:id', restricted, (req, res) => {
+router.put('/:id',  (req, res) => {
 	Foodbank.update(req.params.id, edits)
 		.then(updatedFoodbank => {
 			res.json({ updatedFoodbank });
@@ -20,7 +20,7 @@ router.put('/:id', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.delete('/:id', restricted, async (req, res) => {
+router.delete('/:id',  async (req, res) => {
 	try {
 		const deletedFoodbank = await Foodbank.remove(req.params.id);
 		res.status(200).json(deletedFoodbank);
