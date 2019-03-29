@@ -5,7 +5,7 @@ const restricted = require('../../middleware/restricted/restrictedMiddleware');
 const Donations = require('./donationsModel');
 // const DonationDetals = require('../');
 
-router.get('/', restricted, (req, res) => {
+router.get('/', (req, res) => {
 	Donations.find()
 		.then(donation => {
 			res.json({ donation });
