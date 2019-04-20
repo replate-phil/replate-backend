@@ -3,7 +3,8 @@ const router = require('express').Router();
 const restricted = require('../../middleware/restricted/restrictedMiddleware');
 
 const Donations = require('./donationsModel');
-// const DonationDetals = require('../');
+// const DonationDetails = require('../');
+
 
 router.get('/', (req, res) => {
 	Donations.find()

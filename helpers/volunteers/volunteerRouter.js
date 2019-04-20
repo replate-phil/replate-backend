@@ -3,7 +3,7 @@ const restricted = require('../../middleware/restricted/restrictedMiddleware');
 
 const Volunteer = require('./volunteerModel');
 
-router.get('/', restricted, (req, res) => {
+router.get('/',  (req, res) => {
 	Volunteer.find()
 		.then(volunteer => {
 			res.json({ volunteer });
@@ -11,7 +11,7 @@ router.get('/', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.put('/:id', restricted, (req, res) => {
+router.put('/:id',  (req, res) => {
 	Volunteer.update(req.params.id, edits)
 		.then(updatedVolunteer => {
 			res.json({ updatedVolunteer });
@@ -19,7 +19,7 @@ router.put('/:id', restricted, (req, res) => {
 		.catch(err => res.send(err));
 });
 
-router.delete('/:id', restricted, async (req, res) => {
+router.delete('/:id',  async (req, res) => {
 	try {
 		const deletedVolunteer = await Volunteer.remove(req.params.id);
 		res.status(200).json(deletedVolunteer);
